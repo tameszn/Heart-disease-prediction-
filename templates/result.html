@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+        <h1 class="result-header {{ 'result-high' if pred.result == 'High Risk' else 'result-low' }}">
+            Prediction: {{ pred.result }}
+        </h1>
+        <h3 class="result-subheader">
+            Probability of Cardiovascular Disease: {{ pred.probability }}%
+        </h3>
+         <b>Successfully Predicted</b>
+
+        <hr>
+
+        <h2> Insights & Features</h2>
+        <p>The model's decision was based on these factors</p>
+
+        <div class="insights-grid">
+            <div class="insight-card">
+                <h4>Age ({{ (importances.age * 100)|round(1) }}% Importance)</h4>
+                
+            </div>
+            <div class="insight-card">
+                <h4>Systolic BP ({{ (importances.ap_hi * 100)|round(1) }}% Importance)</h4>
+               
+            </div>
+            <div class="insight-card">
+                <h4>BMI ({{ (importances.bmi * 100)|round(1) }}% Importance)</h4>
+              
+            </div>
+            <div class="insight-card">
+                <h4>Diastolic BP ({{ (importances.ap_lo * 100)|round(1) }}% Importance)</h4>
+               
+            </div>
+             <div class="insight-card">
+                <h4>Pulse Pressure ({{ (importances.pulsepressure * 100)|round(1) }}% Importance)</h4>
+                
+            </div>
+            <div class="insight-card">
+                <h4>Cholesterol ({{ (importances.cholesterol * 100)|round(1) }}% Importance)</h4>
+                
+            </div>
+        </div>
+        
+        <br>
+        <p>
+            <a href="{{ url_for('chatbot') }}" class="btn btn-secondary">Ask AI for advice</a>
+            <a href="{{ url_for('predictor') }}" class="btn btn-primary">Run a new prediction</a>
+        </p>
+
+    </div>
+{% endblock content %}

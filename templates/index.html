@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section text-center">
+        <h1> HEARTDISEASE PREDICTION SYSTEM</h1>
+        <p>Your personal assistant for understanding cardiovascular risk.</p>
+        <br>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('predictor') }}" class="btn btn-primary">Go to Predictor</a>
+        {% else %}
+            <p>Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('register') }}">register</a> to use the predictor.</p>
+        {% endif %}
+    </div>
+{% endblock content %}

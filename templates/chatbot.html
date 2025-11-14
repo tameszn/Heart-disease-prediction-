@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+        <h2>Lifestyle AI Assistant</h2>
+        <p>Ask a question about lifestyle changes (e.g., "diet", "exercise", "smoking").</p>
+        
+        <div class="chat-container">
+            <div id="chat-box">
+                <div class="chat-message bot">Hello! How can I help you with your lifestyle questions today?</div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="send-btn" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Simple JavaScript "AI" Chatbot
+    const chatBox = document.getElementById('chat-box');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const userInput = chatInput.value.trim().toLowerCase();
+        if (userInput === "") return;
+
+        // Add user message to chat
+        addMessage(userInput, 'user');
+        chatInput.value = "";
+
+        // Get bot response
+        setTimeout(() => {
+            const botResponse = getBotResponse(userInput);
+            addMessage(botResponse, 'bot');
+        }, 500);
+    }
+
+    function addMessage(message, sender) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('chat-message', sender);
+        messageElement.textContent = message;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
+    }
+
+    function getBotResponse(input) {
+        if (input.includes("diet") || input.includes("food") || input.includes("eat")) {
+            return "For a heart-healthy diet, focus on fruits, vegetables, whole grains, and lean proteins. Try to reduce sodium, saturated fats, and added sugars.";
+        } else if (input.includes("exercise") || input.includes("active") || input.includes("run")) {
+            return "The American Heart Association recommends at least 150 minutes of moderate-intensity aerobic exercise or 75 minutes of vigorous exercise per week. Even a 30-minute walk each day can help!";
+        } else if (input.includes("blood pressure") || input.includes("ap_hi")) {
+            return "To help manage blood pressure, reduce your sodium (salt) intake, maintain a healthy weight, exercise regularly, and manage stress.";
+        } else if (input.includes("cholesterol")) {
+            return "Lowering high cholesterol often involves eating a diet low in saturated and trans fats, eating more soluble fiber (like oats and beans), and exercising.";
+        } else if (input.includes("smoking") || input.includes("smoke")) {
+            return "Quitting smoking is one of the single best things you can do for your heart. It can be difficult, but there are many resources available to help you quit.";
+        } else if (input.includes("hello") || input.includes("hi")) {
+            return "Hello! Feel free to ask me about diet, exercise, or other lifestyle factors related to heart health.";
+        } else if (input.includes("I want some help") || input.includes("How can you help me") || input.includes("what can you do") || input.includes("help") || input.includes("advice") || input.includes("tips")|| input.includes("suggestions")|| input.includes("recommendations")|| input.includes("yo") || input.includes("hey")|| input.includes("greetings")) {
+            return "Hello! Feel free to ask me about diet, exercise, or other lifestyle factors related to heart health.";
+        } 
+        else {
+            return "I'm sorry,Specifically designed to answer questions about 'diet', 'exercise', 'smoking', 'cholesterol', or 'blood pressure'.";
+        }
+    }
+</script>
+{% endblock content %}

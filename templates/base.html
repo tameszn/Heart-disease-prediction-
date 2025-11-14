@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Heart Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a class="nav-brand" href="{{ url_for('index') }}">HeartRisk AI</a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">Home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('predictor') }}">Predictor</a>
+                    <a href="{{ url_for('chatbot') }}">Lifestyle AI</a>
+                    <a href="{{ url_for('logout') }}">Logout ({{ current_user.username }})</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

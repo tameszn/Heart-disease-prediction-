@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .loading-wrap {
+    max-width: 1100px;
+    margin: 64px auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 28px;
+  }
+  @media (max-width: 900px) {
+    .loading-wrap { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 14px 36px rgba(0,0,0,.18);
+    padding: 32px;
+  }
+  .center { text-align: center; }
+
+  /* Spinner */
+  .spinner {
+    width: 84px; height: 84px;
+    border: 7px solid #e7e7e7;
+    border-top-color: #0d6efd;
+    border-radius: 50%;
+    margin: 18px auto 10px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Progress bar */
+  .progress {
+    height: 6px; background: #eee; border-radius: 999px; overflow: hidden;
+    margin: 18px auto 8px; max-width: 420px;
+  }
+  .progress > div {
+    width: 0; height: 100%;
+    background: linear-gradient(90deg,#0d6efd,#22c55e);
+    animation: fill 8s linear forwards;
+  }
+  @keyframes fill { to { width: 100%; } }
+
+  /* Facts panel */
+  .facts h4 { margin-bottom: 8px; }
+  .fact {
+    font-style: italic; color: #444; min-height: 68px;
+    transition: opacity .25s ease;
+  }
+</style>
+
+<div class="loading-wrap">
+  <!-- Analysis panel -->
+  <section class="card center">
+    <h2 class="mb-1">Analyzing Your Vitals…</h2>
+    <p class="text-muted">This may take a few moments. Please wait.</p>
+    <div class="spinner"></div>
+    <div class="progress"><div></div></div>
+    <p class="text-muted">Preparing your personalized risk report…</p>
+  </section>
+
+  <!-- Facts panel -->
+  <aside class="card facts">
+    <h4>Did You Know?</h4>
+    <p id="fact" class="fact"></p>
+  </aside>
+</div>
+
+<script>
+  // --- Rotating facts ---
+  const facts = {{ facts| tojson | safe }};
+  const factEl = document.getElementById('fact');
+  let i = 0;
+
+  function showFact(idx) {
+    if (!facts.length) return;
+    factEl.style.opacity = 0;
+    setTimeout(() => {
+      factEl.textContent = facts[idx];
+      factEl.style.opacity = 1;
+    }, 200);
+  }
+  showFact(0);
+  const factTimer = setInterval(() => {
+    i = (i + 1) % facts.length;
+    showFact(i);
+  }, 2500);
+
+  // --- Auto-redirect after 8 seconds ---
+  setTimeout(() => {
+    clearInterval(factTimer);
+    window.location.href = "{{ next_url }}";
+  }, 8000);
+</script>
+
+{% endblock %}
