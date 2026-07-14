@@ -1,4 +1,4 @@
- *~Heart Disease Prediction System~* 
+ # Heart Disease Prediction System 
 
 A web application built with Flask and Scikit-learn that predicts a user's risk of cardiovascular disease based on key health metrics. The app also provides personalized lifestyle insights based on the prediction.
 
@@ -60,3 +60,7 @@ run the following commands:
 command:flask run
 application starts at:
 http://127.0.0.1:5000/
+
+
+
+- 🌐 **Live Demo:** https://cardio-risk-predict-mops.onrender.com
