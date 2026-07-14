@@ -13,3 +13,4 @@ pandas
 numpy
 matplotlib
 scikit-learn
+gunicorn 
